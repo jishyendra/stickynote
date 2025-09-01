@@ -1,16 +1,15 @@
 "use client";
-import type { NoteType, NoteItem } from "@/utils/types/types";
+import type { NoteType } from "@/lib/types";
 import Image from "next/image";
 import { useState } from "react";
-export default function Note({ note }: { note: NoteType }) {
-	const [noteItem, setNoteItem] = useState<string>("");
-	const [notes, addNote] = useState<NoteItem[]>(note.items);
+import { useBoardStore } from "@/store/useNotes";
 
-	function handleNewNote() {
-		if (noteItem.trim() === "") return;
-		addNote((prev) => [...prev, noteItem]);
-		setNoteItem("");
-	}
+export default function Note({ note }: { note: NoteType }) {
+	const [newNote, setNewNote] = useState<string>("");
+	const [notes, addNote] = useState<NoteType>(note);
+	// const {}  = useBoardStore((state) => state.)
+
+	function handleNewNote() {}
 
 	return (
 		<div className='grid gap-1 p-2 border rounded-xl bg-white'>
@@ -37,11 +36,14 @@ export default function Note({ note }: { note: NoteType }) {
 						}
 					}}
 					onChange={(e) => {
-						setNoteItem(e.target.value);
+						setNewNote(e.target.value);
 					}}
-					value={noteItem}
+					value={newNote}
 				></textarea>
-				<button className='w-min p-1 border rounded-md' type='submit'>
+				<button
+					className='w-min p-1 border rounded-md'
+					onClick={handleCreateNewNote}
+				>
 					Add
 				</button>
 			</div>
